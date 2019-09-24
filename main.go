@@ -19,10 +19,14 @@ func main() {
 	var kubeconfig string
 	resName := flag.String("name", "", "Name of the pod that you want to get.")
 	namespace := flag.String("n", "", "Namespace you want that resource to be searched in.")
+	kinds := flag.String("kinds", "", "List all the kinds that you want to be displayed.")
+
 	flag.Parse()
 
 	if envVar := os.Getenv("KUBECONFIG"); len(envVar) > 0 {
 		kubeconfig = envVar
+	} else {
+		log.Error("KUBECONFIG env variable is not set, please set the variable.")
 	}
 
 	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
@@ -45,67 +49,89 @@ func main() {
 	if err != nil {
 		log.Info("There was an error getting components statusses from clientset", err)
 	}
-	printComponentStatuses(componentStatuses, resName)
+	if result := checkKinds("componentstatus", *kinds); result == true {
+		printComponentStatuses(componentStatuses, resName)
+	}
 
 	cms, err := clientset.CoreV1().ConfigMaps(*namespace).List(metav1.ListOptions{})
 	if err != nil {
 		log.Info("There was an error getting configmaps from cleintset", err)
 	}
-	printConfigMaps(cms, resName)
+	if result := checkKinds("configmap", *kinds); result == true {
+		printConfigMaps(cms, resName)
+	}
 
 	endPoints, err := clientset.CoreV1().Endpoints(*namespace).List(metav1.ListOptions{})
 	if err != nil {
 		log.Info("There was an error getting endpoints from clientset", err)
 	}
-	printEndpoints(endPoints, resName)
+	if result := checkKinds("endpoint", *kinds); result == true {
+		printEndpoints(endPoints, resName)
+	}
 
 	events, err := clientset.CoreV1().Events(*namespace).List(metav1.ListOptions{})
 	if err != nil {
 		log.Info("There was an error getting the events from clienesat", err)
 	}
-	printEvents(events, resName)
+	if result := checkKinds("event", *kinds); result == true {
+		printEvents(events, resName)
+	}
 
 	limitRanges, err := clientset.CoreV1().LimitRanges(*namespace).List(metav1.ListOptions{})
 	if err != nil {
 		log.Info("There was an error getting limitrange from clientset", err)
 	}
-	printLimitRanges(limitRanges, resName)
+	if result := checkKinds("limitrange", *kinds); result == true {
+		printLimitRanges(limitRanges, resName)
+	}
 
 	namespaces, err := clientset.CoreV1().Namespaces().List(metav1.ListOptions{})
 	if err != nil {
 		log.Info("There was an error getting namespaces from clientset", err)
 	}
-	printNamespaces(namespaces, resName)
+	if result := checkKinds("namespace", *kinds); result == true {
+		printNamespaces(namespaces, resName)
+	}
 
 	pvs, err := clientset.CoreV1().PersistentVolumes().List(metav1.ListOptions{})
 	if err != nil {
 		log.Info("There was an error getting PVs throuhg CLIentset", err)
 	}
-	printPVs(pvs, resName)
+	if result := checkKinds("persistentvolume", *kinds); result == true {
+		printPVs(pvs, resName)
+	}
 
 	pvcs, err := clientset.CoreV1().PersistentVolumeClaims(*namespace).List(metav1.ListOptions{})
 	if err != nil {
 		log.Info("There was an error getting PVCs throuhg CLIentset", err)
 	}
-	printPVCs(pvcs, resName)
+	if result := checkKinds("persistentvolumeclaim", *kinds); result == true {
+		printPVCs(pvcs, resName)
+	}
 
 	podTemplates, err := clientset.CoreV1().PodTemplates(*namespace).List(metav1.ListOptions{})
 	if err != nil {
 		log.Info("There was an error getting podTemplates throuhg CLIentset", err)
 	}
-	printPodTemplates(podTemplates, resName)
+	if result := checkKinds("podtemplate", *kinds); result == true {
+		printPodTemplates(podTemplates, resName)
+	}
 
 	resQuotas, err := clientset.CoreV1().ResourceQuotas(*namespace).List(metav1.ListOptions{})
 	if err != nil {
 		log.Info("There was an error getting resourceQuots throuhg CLIentset", err)
 	}
-	printResourceQuotas(resQuotas, resName)
+	if result := checkKinds("resourcequota", *kinds); result == true {
+		printResourceQuotas(resQuotas, resName)
+	}
 
 	secrets, err := clientset.CoreV1().Secrets(*namespace).List(metav1.ListOptions{})
 	if err != nil {
 		log.Info("There was an error getting secrets throuhg CLIentset", err)
 	}
-	printSecrets(secrets, resName)
+	if result := checkKinds("secret", *kinds); result == true {
+		printSecrets(secrets, resName)
+	}
 
 	services, err := clientset.CoreV1().Services(*namespace).List(metav1.ListOptions{})
 	if err != nil {
@@ -117,7 +143,9 @@ func main() {
 	if err != nil {
 		log.Info("There was an error getting serviceacc throuhg CLIentset", err)
 	}
-	printServiceAccounts(serviceAccs, resName)
+	if result := checkKinds("serviceaccount", *kinds); result == true {
+		printServiceAccounts(serviceAccs, resName)
+	}
 
 	// these will be from the appsV1
 
@@ -143,7 +171,9 @@ func main() {
 	if err != nil {
 		log.Info("There was an error getting statefulset from clientset", err)
 	}
-	printStateFulSets(ssets, resName)
+	if result := checkKinds("statefulset", *kinds); result == true {
+		printStateFulSets(ssets, resName)
+	}
 }
 
 func printPodDetails(pods *v1.PodList, resName *string) {
@@ -430,4 +460,17 @@ func printStateFulSets(ssets *appsv1.StatefulSetList, resName *string) {
 		}
 	}
 	w.Flush()
+}
+
+func checkKinds(kind string, providedKinds string) bool {
+	if providedKinds == "" {
+		return true
+	}
+	stringSlice := strings.Split(providedKinds, ",")
+	for _, val := range stringSlice {
+		if kind == val {
+			return true
+		}
+	}
+	return false
 }
