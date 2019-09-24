@@ -46,5 +46,8 @@ kubectl search -name  <res-name>
 ```
 if you know the namespace you can append that using `-n` flag.
 
+# Installation 
+//TODO, add to kubectl krew plugin repo
+
 # Demo
 [![asciicast](https://asciinema.org/a/quPHY6X6eVhkNtJ1Q0c0Z6PxC.svg)](https://asciinema.org/a/quPHY6X6eVhkNtJ1Q0c0Z6PxC)
