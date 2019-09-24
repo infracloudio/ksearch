@@ -21,6 +21,18 @@ kubectl search -name <res-name>
 ```
 will list all the resources from all the namespaces if their name contains the string `res-name`. We can provide an options `-n` parameter to do the same in for a specific namespave.
 
+# Specify the kinds that you want list
+There are chances that you want some extra resources listed along with the resources that gets listed when we `kubectl get` but not all. `kubectl search` lists a lot of resources that you might not want to see, now you can alos specify the kinds that you want to see along with the basic resources that get displayed when we use `kubectl get`.
+For example to get all the basic resources (that get displayed when we use `kubectl get`) and some extra resources (`configmaps` and `secret`) from `kube-system` namespace we can use 
+```
+kubectl search -n kube-system -kinds configmaps,secret
+```
+We can alwasy use `-name` flag to filter the only resources that match the provided value. For example below command 
+```
+kubectl search -n kube-system -kinds configmap,secret,serviceaccount -name nginx
+```
+will list all the basic resources (that we get from `kubectl get`), configmaps, secrets and serviceaccounts from the `kube-system` namespace that have `nginx` in their name.
+
 # Getting Help
 You can run below command to get the list of supported flags.
 ```
@@ -35,4 +47,4 @@ kubectl search -name  <res-name>
 if you know the namespace you can append that using `-n` flag.
 
 # Demo
-[![asciicast](https://asciinema.org/a/RDcSSrmq6m0hhsaxgIOO6nQ6D.svg)](https://asciinema.org/a/RDcSSrmq6m0hhsaxgIOO6nQ6D)
+[![asciicast](https://asciinema.org/a/quPHY6X6eVhkNtJ1Q0c0Z6PxC.svg)](https://asciinema.org/a/quPHY6X6eVhkNtJ1Q0c0Z6PxC)
