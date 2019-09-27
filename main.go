@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"os/user"
 	"strings"
 	"text/tabwriter"
 
@@ -26,7 +27,11 @@ func main() {
 	if envVar := os.Getenv("KUBECONFIG"); len(envVar) > 0 {
 		kubeconfig = envVar
 	} else {
-		log.Error("KUBECONFIG env variable is not set, please set the variable.")
+		usr, err := user.Current()
+		if err != nil {
+			log.Fatal(err)
+		}
+		kubeconfig = usr.HomeDir + "/.kube/config"
 	}
 
 	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
