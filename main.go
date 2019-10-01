@@ -48,7 +48,9 @@ func main() {
 	if err != nil {
 		log.Info("There was an error getting the pod from clientset", err)
 	}
-	printPodDetails(pods, resName)
+	if result := checkKinds("pod", *kinds); result == true {
+		printPodDetails(pods, resName)
+	}
 
 	componentStatuses, err := clientset.CoreV1().ComponentStatuses().List(metav1.ListOptions{})
 	if err != nil {
@@ -142,7 +144,9 @@ func main() {
 	if err != nil {
 		log.Info("There was an error getting services  throuhg CLIentset", err)
 	}
-	printServices(services, resName)
+	if result := checkKinds("service", *kinds); result == true {
+		printServices(services, resName)
+	}
 
 	serviceAccs, err := clientset.CoreV1().ServiceAccounts(*namespace).List(metav1.ListOptions{})
 	if err != nil {
@@ -158,19 +162,25 @@ func main() {
 	if err != nil {
 		log.Info("There was an error getting ds from clientset", err)
 	}
-	printDaemonSets(daemonsets, resName)
+	if result := checkKinds("daemonset", *kinds); result == true {
+		printDaemonSets(daemonsets, resName)
+	}
 
 	deployments, err := clientset.AppsV1().Deployments(*namespace).List(metav1.ListOptions{})
 	if err != nil {
 		log.Info("There was an error getting deployment from clientset", err)
 	}
-	printDeployments(deployments, resName)
+	if result := checkKinds("deployment", *kinds); result == true {
+		printDeployments(deployments, resName)
+	}
 
 	rsets, err := clientset.AppsV1().ReplicaSets(*namespace).List(metav1.ListOptions{})
 	if err != nil {
 		log.Info("There was an error getting replicasets from clientset ", err)
 	}
-	printReplicaSets(rsets, resName)
+	if result := checkKinds("replicaset", *kinds); result == true {
+		printReplicaSets(rsets, resName)
+	}
 
 	ssets, err := clientset.AppsV1().StatefulSets(*namespace).List(metav1.ListOptions{})
 	if err != nil {
