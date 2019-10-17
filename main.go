@@ -33,10 +33,14 @@ func main() {
 		}
 		kubeconfig = usr.HomeDir + "/.kube/config"
 	}
-
 	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
 	if err != nil {
-		log.Info("There was an error getting the config from kubeconfig.")
+		log.Warn("There was an error getting the config from kubeconfig.")
+	}
+
+	if config == nil {
+		log.Error("Unable to fetch cluster information. Check if cluster is up and running.")
+		return
 	}
 
 	clientset, err := kubernetes.NewForConfig(config)
@@ -188,6 +192,7 @@ func main() {
 	}
 	if result := checkKinds("statefulset", *kinds); result == true {
 		printStateFulSets(ssets, resName)
+
 	}
 }
 
