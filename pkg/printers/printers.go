@@ -11,7 +11,7 @@ import (
 	appsv1 "k8s.io/api/apps/v1"
 )
 
-func PrintPodDetails(pods *v1.PodList, resName string) {
+func printPodDetails(pods *v1.PodList, resName string) {
 	fmt.Printf("\nPods\n----\n")
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
 	fmt.Fprintf(w, "%v\t%v\t%v\t%v\n", "NAME", "READY", "STATUS", "RESTARTS")
@@ -27,7 +27,7 @@ func PrintPodDetails(pods *v1.PodList, resName string) {
 	}
 	w.Flush()
 }
-func PrintPodTemplates(podTemplates *v1.PodTemplateList, resName string) {
+func printPodTemplates(podTemplates *v1.PodTemplateList, resName string) {
 	fmt.Printf("\nPodTemplates\n--------------\n")
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
 	fmt.Fprintf(w, "%v\n", "NAME")
@@ -42,7 +42,7 @@ func PrintPodTemplates(podTemplates *v1.PodTemplateList, resName string) {
 	}
 	w.Flush()
 }
-func PrintComponentStatuses(componentStatuses *v1.ComponentStatusList, resName string) {
+func printComponentStatuses(componentStatuses *v1.ComponentStatusList, resName string) {
 	fmt.Printf("\nComponentStatuses\n-------------\n")
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
 	fmt.Fprintf(w, "%v\t%v\t%v\t%v\n", "NAME", "STATUS", "MESSAGE", "ERROR")
@@ -57,7 +57,7 @@ func PrintComponentStatuses(componentStatuses *v1.ComponentStatusList, resName s
 	}
 	w.Flush()
 }
-func PrintConfigMaps(cms *v1.ConfigMapList, resName string) {
+func printConfigMaps(cms *v1.ConfigMapList, resName string) {
 	fmt.Printf("\nConfigMaps\n--------------\n")
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
 	fmt.Fprintf(w, "%v\t%v\t%v\n", "NAME", "DATA", "AGE")
@@ -72,7 +72,7 @@ func PrintConfigMaps(cms *v1.ConfigMapList, resName string) {
 	}
 	w.Flush()
 }
-func PrintEndpoints(endPoints *v1.EndpointsList, resName string) {
+func printEndpoints(endPoints *v1.EndpointsList, resName string) {
 	fmt.Printf("\nEndpoints\n--------------\n")
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
 	fmt.Fprintf(w, "%v\t%v\t%v\n", "NAME", "ENDPOINTS", "AGE")
@@ -87,7 +87,7 @@ func PrintEndpoints(endPoints *v1.EndpointsList, resName string) {
 	}
 	w.Flush()
 }
-func PrintEvents(events *v1.EventList, resName string) {
+func printEvents(events *v1.EventList, resName string) {
 	fmt.Printf("\nEvents\n--------------\n")
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
 	fmt.Fprintf(w, "%v\t%v\t%v\t%v\t%v\t%v\n", "NAMESPACE", "LAST SEEN", "TYPE", "REASON", "OBJECT", "MESSAGE")
@@ -96,7 +96,7 @@ func PrintEvents(events *v1.EventList, resName string) {
 	}
 	w.Flush()
 }
-func PrintLimitRanges(limitRanges *v1.LimitRangeList, resName string) {
+func printLimitRanges(limitRanges *v1.LimitRangeList, resName string) {
 	fmt.Printf("\nLimitRanges\n--------------\n")
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
 	fmt.Fprintf(w, "%v\t%v\n", "NAME", "CREATED AT")
@@ -111,7 +111,7 @@ func PrintLimitRanges(limitRanges *v1.LimitRangeList, resName string) {
 	}
 	w.Flush()
 }
-func PrintNamespaces(namespaces *v1.NamespaceList, resName string) {
+func printNamespaces(namespaces *v1.NamespaceList, resName string) {
 	fmt.Printf("\nNamespaces\n--------------\n")
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
 	fmt.Fprintf(w, "%v\t%v\t%v\n", "NAME", "STATUS", "AGE")
@@ -126,7 +126,7 @@ func PrintNamespaces(namespaces *v1.NamespaceList, resName string) {
 	}
 	w.Flush()
 }
-func PrintPVs(pvs *v1.PersistentVolumeList, resName string) {
+func printPVs(pvs *v1.PersistentVolumeList, resName string) {
 	fmt.Printf("\nPersistentVolumes\n--------------\n")
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
 	fmt.Fprintf(w, "%v\t%v\t%v\t%v\t%v\t%v\t%v\t%v\t%v\n", "NAME", "CAPACITY", "ACCESS MODES", "RECLAIM POLICY", "STATUS", "CLAIM", "STORAGECLASS", "REASON", "AGE")
@@ -142,7 +142,7 @@ func PrintPVs(pvs *v1.PersistentVolumeList, resName string) {
 	}
 	w.Flush()
 }
-func PrintPVCs(pvcs *v1.PersistentVolumeClaimList, resName string) {
+func printPVCs(pvcs *v1.PersistentVolumeClaimList, resName string) {
 	fmt.Printf("\nPersistentVolumeClaims\n--------------\n")
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
 	fmt.Fprintf(w, "%v\t%v\t%v\t%v\t%v\t%v\t%v\n", "NAME", "STATUS", "VOLUME", "CAPACITY", "ACCESS MODES", "STORAGECLASS", "AGE")
@@ -159,7 +159,7 @@ func PrintPVCs(pvcs *v1.PersistentVolumeClaimList, resName string) {
 	w.Flush()
 }
 
-func PrintResourceQuotas(resQuotas *v1.ResourceQuotaList, resName string) {
+func printResourceQuotas(resQuotas *v1.ResourceQuotaList, resName string) {
 	fmt.Printf("\nResourceQuotas\n--------------\n")
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
 	fmt.Fprintf(w, "%v\t%v\n", "NAME", "CREATED AT")
@@ -174,7 +174,7 @@ func PrintResourceQuotas(resQuotas *v1.ResourceQuotaList, resName string) {
 	}
 	w.Flush()
 }
-func PrintSecrets(secrets *v1.SecretList, resName string) {
+func printSecrets(secrets *v1.SecretList, resName string) {
 	fmt.Printf("\nSecrets\n--------------\n")
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
 	fmt.Fprintf(w, "%v\t%v\t%v\t%v\n", "NAME", "TYPE", "DATA", "AGE")
@@ -189,7 +189,7 @@ func PrintSecrets(secrets *v1.SecretList, resName string) {
 	}
 	w.Flush()
 }
-func PrintServices(services *v1.ServiceList, resName string) {
+func printServices(services *v1.ServiceList, resName string) {
 	fmt.Printf("\nServices\n--------------\n")
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
 	fmt.Fprintf(w, "%v\t%v\t%v\t%v\t%v\t%v\n", "NAME", "TYPE", "CLUSTER-IP", "EXTERNAL-IP", "PORT(S)", "AGE")
@@ -205,7 +205,7 @@ func PrintServices(services *v1.ServiceList, resName string) {
 	}
 	w.Flush()
 }
-func PrintServiceAccounts(serviceAccs *v1.ServiceAccountList, resName string) {
+func printServiceAccounts(serviceAccs *v1.ServiceAccountList, resName string) {
 	fmt.Printf("\nServiceAccounts\n--------------\n")
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
 	fmt.Fprintf(w, "%v\t%v\t%v\n", "NAME", "SECRETS", "AGE")
@@ -220,7 +220,7 @@ func PrintServiceAccounts(serviceAccs *v1.ServiceAccountList, resName string) {
 	}
 	w.Flush()
 }
-func PrintDaemonSets(daemonsets *appsv1.DaemonSetList, resName string) {
+func printDaemonSets(daemonsets *appsv1.DaemonSetList, resName string) {
 	fmt.Printf("\nDaemonSets\n--------------\n")
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
 	fmt.Fprintf(w, "%v\t%v\t%v\t%v\t%v\t%v\t%v\t%v\t%v\n", "NAMESPACE", "NAME", "DESIRED", "CURRENT", "READY", "UP-TO-DATE", "AVAILABLE", "NODE SELECTOR", "AGE")
@@ -235,7 +235,7 @@ func PrintDaemonSets(daemonsets *appsv1.DaemonSetList, resName string) {
 	}
 	w.Flush()
 }
-func PrintDeployments(deployments *appsv1.DeploymentList, resName string) {
+func printDeployments(deployments *appsv1.DeploymentList, resName string) {
 	fmt.Printf("\nDeployments\n--------------\n")
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
 	fmt.Fprintf(w, "%v\t%v\t%v\t%v\t%v\n", "NAME", "READY", "UP-TO-DATE", "AVAILABLE", "AGE")
@@ -250,7 +250,7 @@ func PrintDeployments(deployments *appsv1.DeploymentList, resName string) {
 	}
 	w.Flush()
 }
-func PrintReplicaSets(rsets *appsv1.ReplicaSetList, resName string) {
+func printReplicaSets(rsets *appsv1.ReplicaSetList, resName string) {
 	fmt.Printf("\nReplicaSets\n--------------\n")
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
 	fmt.Fprintf(w, "%v\t%v\t%v\t%v\t%v\n", "NAME", "DESIRED", "CURRENT", "READY", "AGE")
@@ -265,7 +265,7 @@ func PrintReplicaSets(rsets *appsv1.ReplicaSetList, resName string) {
 	}
 	w.Flush()
 }
-func PrintStateFulSets(ssets *appsv1.StatefulSetList, resName string) {
+func printStateFulSets(ssets *appsv1.StatefulSetList, resName string) {
 	fmt.Printf("\nStatefulSets\n--------------\n")
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
 	fmt.Fprintf(w, "%v\t%v\t%v\n", "NAME", "READY", "AGE")
@@ -279,4 +279,65 @@ func PrintStateFulSets(ssets *appsv1.StatefulSetList, resName string) {
 		}
 	}
 	w.Flush()
+}
+
+func Printer(resource interface{}, resName string) {
+	switch resource {
+	case resource.(*v1.PodList):
+		pods := resource.(*v1.PodList)
+		printPodDetails(pods, resName)
+	case resource.(*v1.ComponentStatusList):
+		componentStatuses := resource.(*v1.ComponentStatusList)
+		printComponentStatuses(componentStatuses, resName)
+	case resource.(*v1.ConfigMapList):
+		cms := resource.(*v1.ConfigMapList)
+		printConfigMaps(cms, resName)
+	case resource.(*v1.EndpointsList):
+		endPoints := resource.(*v1.EndpointsList)
+		printEndpoints(endPoints, resName)
+	case resource.(*v1.EventList):
+		events := resource.(*v1.EventList)
+		printEvents(events, resName)
+	case resource.(*v1.LimitRangeList):
+		limitRanges := resource.(*v1.LimitRangeList)
+		printLimitRanges(limitRanges, resName)
+	case resource.(*v1.NamespaceList):
+		namespaces := resource.(*v1.NamespaceList)
+		printNamespaces(namespaces, resName)
+	case resource.(*v1.PersistentVolumeList):
+		pvs := resource.(*v1.PersistentVolumeList)
+		printPVs(pvs, resName)
+	case resource.(*v1.PersistentVolumeClaimList):
+		pvcs := resource.(*v1.PersistentVolumeClaimList)
+		printPVCs(pvcs, resName)
+	case resource.(*v1.PodTemplateList):
+		podTemplates := resource.(*v1.PodTemplateList)
+		printPodTemplates(podTemplates, resName)
+	case resource.(*v1.ResourceQuotaList):
+		resQuotas := resource.(*v1.ResourceQuotaList)
+		printResourceQuotas(resQuotas, resName)
+	case resource.(*v1.SecretList):
+		secrets := resource.(*v1.SecretList)
+		printSecrets(secrets, resName)
+	case resource.(*v1.ServiceList):
+		services := resource.(*v1.ServiceList)
+		printServices(services, resName)
+	case resource.(*v1.ServiceAccountList):
+		serviceAccs := resource.(*v1.ServiceAccountList)
+		printServiceAccounts(serviceAccs, resName)
+
+		// these will be from the appsV1
+	case resource.(*appsv1.DaemonSetList):
+		daemonsets := resource.(*appsv1.DaemonSetList)
+		printDaemonSets(daemonsets, resName)
+	case resource.(*appsv1.DeploymentList):
+		deployments := resource.(*appsv1.DeploymentList)
+		printDeployments(deployments, resName)
+	case resource.(*appsv1.ReplicaSetList):
+		rsets := resource.(*appsv1.ReplicaSetList)
+		printReplicaSets(rsets, resName)
+	case resource.(*appsv1.StatefulSetList):
+		ssets := resource.(*appsv1.StatefulSetList)
+		printStateFulSets(ssets, resName)
+	}
 }
