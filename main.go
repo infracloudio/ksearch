@@ -24,13 +24,11 @@ func main() {
 	go util.Getter(*namespace, clientset, *kinds, getter)
 
 	for {
-		select {
-		case resource, ok := <-getter:
-			if !ok {
-				return
-			}
-			printers.Printer(resource, *resName)
+		resource, ok := <-getter
+		if !ok {
+			return
 		}
+		printers.Printer(resource, *resName)
 	}
 
 }
